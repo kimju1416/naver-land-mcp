@@ -1,6 +1,6 @@
 """naver-land-mcp FastMCP 서버.
 
-도구 6개 (네이버 부동산 API 기반, 전국 지원):
+도구 6개 (네이버 부동산 fin.land API 기반, 전국 지원 — 집·학교 PC에서만, 데이터센터 IP는 네이버가 막음):
 - watch_complexes: 관심 단지 매물+시세(한국부동산원+KB)+실거래가 일괄 조회
 - search_apartments: 동/구/군 + 가격 범위로 매물 검색 (매매/전세/월세)
 - get_complex_info: 단지 상세 정보
@@ -191,8 +191,7 @@ def list_districts() -> str:
     직접 입력하면 네이버 검색 API로 자동 조회됩니다.
     예: "관평동", "강남구", "성남시 분당구"
     """
-    data = _client._get("/regions/list", {"cortarNo": "0000000000"})
-    regions = data.get("regionList", [])
+    regions = _client.get_dong_list("0000000000")
     simplified = [
         {"name": r.get("cortarName"), "cortarNo": r.get("cortarNo")}
         for r in regions

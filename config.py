@@ -2,32 +2,19 @@
 
 import os
 
-# 2026-07: 네이버가 new.land.naver.com(구 도메인)의 프론트엔드 페이지를 폐기하고
-# neo.land.naver.com으로 이전함(API 경로 구조는 동일, 도메인만 변경).
-API_BASE = "https://neo.land.naver.com/api"
-MAIN_PAGE_URL = "https://neo.land.naver.com/complexes"
+# 2026-07: new.land → neo.land 로 이전.
+# 2026-10-28: 네이버가 neo.land/api 를 닫고 fin.land.naver.com/front-api/v1 로 다시 옮김(옛 경로 404).
+# 새 API 는 진짜 브라우저에서 부른 요청만 받아 줘서 fin_browser.py 가 화면 없는 Chromium 안에서 부른다.
+FIN_ORIGIN = "https://fin.land.naver.com"
 
 USER_AGENT = (
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/131.0.0.0 Safari/537.36"
+    "Chrome/141.0.0.0 Safari/537.36"
 )
-
-BROWSER_HEADERS = {
-    "User-Agent": USER_AGENT,
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-    "Referer": "https://neo.land.naver.com/complexes",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-origin",
-}
 
 # Rate limiting
 REQUEST_DELAY_SEC = 0.5       # 요청 간 최소 딜레이
-RETRY_DELAY_SEC = 5.0         # 429 시 재시도 대기
-MAX_RETRIES = 3
-REQUEST_TIMEOUT_SEC = 10
 
 # 스냅샷 저장 경로 (변동 감지용)
 SNAPSHOT_DIR = os.path.expanduser("~/.naver-land")
@@ -57,5 +44,5 @@ TRADE_TYPES = {
     "B2": "월세",
 }
 
-# 지역코드는 네이버 검색 API (/search) 로 동적 조회 — 하드코딩 제거.
+# 지역코드는 네이버 검색(/search/autocomplete/legalDivisions)으로 동적 조회 — 하드코딩 없음.
 # naver_land.resolve_region() / crawl_district() 참조.

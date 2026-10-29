@@ -9,6 +9,7 @@ dependencies = [
     "mcp[cli]>=1.0",
     "fastmcp>=0.4",
     "requests>=2.31",
+    "playwright==1.61.0",
 ]
 
 [tool.uv]
